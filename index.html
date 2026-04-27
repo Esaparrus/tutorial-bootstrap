@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tutorial de Bootstrap - Desarrollo de Aplicaciones en Red</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <style>
+    /* Estilo general - hecho por un estudiante, sin excesiva complejidad */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    /* Barra lateral de navegación */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 240px;
+      background-color: #7952b3;
+      overflow-y: auto;
+      z-index: 999;
+      padding-top: 1rem;
+    }
+
+    #sidebar .nav-title {
+      color: #e0cfff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 0.5rem 1.2rem;
+      margin-top: 0.8rem;
+    }
+
+    #sidebar .nav-link {
+      color: #d8c9f5;
+      padding: 0.4rem 1.2rem;
+      font-size: 0.9rem;
+      border-radius: 0;
+      transition: background 0.2s;
+    }
+
+    #sidebar .nav-link:hover,
+    #sidebar .nav-link.active {
+      background-color: rgba(255,255,255,0.15);
+      color: #fff;
+    }
+
+    #sidebar .logo-area {
+      text-align: center;
+      padding: 0.5rem 1rem 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.2);
+    }
+
+    #sidebar .logo-area h5 {
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      margin: 0;
+    }
+
+    #sidebar .logo-area span {
+      color: #e0cfff;
+      font-size: 0.75rem;
+    }
+
+    /* Contenido principal desplazado a la derecha del sidebar */
+    #main-content {
+      margin-left: 240px;
+      padding: 2rem;
+    }
+
+    /* Secciones del tutorial */
+    .section-card {
+      background: #fff;
+      border-radius: 8px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+      border-left: 5px solid #7952b3;
+    }
+
+    .section-card h2 {
+      color: #7952b3;
+      font-weight: 700;
+      margin-bottom: 1.2rem;
+      font-size: 1.6rem;
+    }
+
+    .section-card h3 {
+      color: #444;
+      font-size: 1.15rem;
+      font-weight: 600;
+      margin-top: 1.5rem;
+      margin-bottom: 0.6rem;
+    }
+
+    /* Bloques de código */
+    pre {
+      background-color: #1e1e2e;
+      color: #cdd6f4;
+      padding: 1.2rem;
+      border-radius: 6px;
+      overflow-x: auto;
+      font-size: 0.88rem;
+      line-height: 1.6;
+    }
+
+    code {
+      font-family: 'Courier New', monospace;
+    }
+
+    /* Inline code */
+    p code, li code {
+      background-color: #ede9fe;
+      color: #6d28d9;
+      padding: 2px 5px;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+
+    /* Notas/alertas estilo propio */
+    .nota {
+      background-color: #fef9e7;
+      border-left: 4px solid #f0ad4e;
+      padding: 0.8rem 1rem;
+      border-radius: 4px;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    .consejo {
+      background-color: #e8f5e9;
+      border-left: 4px solid #4caf50;
+      padding: 0.8rem 1rem;
+      border-radius: 4px;
+      margin: 1rem 0;
+      font-size: 0.9rem;
+    }
+
+    /* Cabecera tipo hero */
+    #hero {
+      background: linear-gradient(135deg, #7952b3 0%, #563d7c 100%);
+      color: white;
+      padding: 3rem 2rem 2.5rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+      box-shadow: 0 4px 15px rgba(121, 82, 179, 0.3);
+    }
+
+    #hero h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+    }
+
+    #hero p {
+      color: #e0cfff;
+      font-size: 1rem;
+    }
+
+    /* Tabla de contenidos en hero */
+    .badge-step {
+      background-color: #7952b3;
+      color: white;
+      border-radius: 50%;
+      width: 28px;
+      height: 28px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      font-weight: 700;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    .step-item {
+      display: flex;
+      align-items: flex-start;
+      margin-bottom: 0.6rem;
+    }
+
+    /* Resultado visual de ejemplo */
+    .resultado-visual {
+      border: 2px dashed #7952b3;
+      padding: 1.5rem;
+      border-radius: 6px;
+      margin: 1rem 0;
+      background-color: #faf8ff;
+    }
+
+    .resultado-visual .label {
+      font-size: 0.75rem;
+      color: #7952b3;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.7rem;
+    }
+
+    /* Tabla de versiones */
+    .tabla-version {
+      font-size: 0.9rem;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #7952b3;
+      color: #e0cfff;
+      text-align: center;
+      padding: 1.5rem;
+      margin-top: 2rem;
+      font-size: 0.85rem;
+    }
+
+    /* Responsive: en móvil el sidebar desaparece */
+    @media (max-width: 768px) {
+      #sidebar {
+        display: none;
+      }
+      #main-content {
+        margin-left: 0;
+      }
+    }
+
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Ancla con offset por sidebar */
+    :target {
+      scroll-margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============ SIDEBAR ============ -->
+  <nav id="sidebar">
+    <div class="logo-area">
+      <h5 class="mt-1">Bootstrap</h5>
+      <span>Tutorial paso a paso</span>
+    </div>
+
+    <div class="nav-title">Contenido</div>
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a class="nav-link" href="#sec1">
+          ¿Qué es Bootstrap?
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#sec2">
+          Instalación
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#sec3">
+          Primeros pasos
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#sec_util">
+          Utilización
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#sec_func">
+          Funcionamiento
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#sec4">
+          Sistema de Grid
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#sec5">
+          Componentes
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#sec6">
+          Diseño Responsive
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#sec7">
+          Ejemplo completo
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#sec8">
+          Conclusiones
+        </a>
+      </li>
+    </ul>
+
+    <div class="nav-title">Recursos</div>
+    <ul class="nav flex-column mb-3">
+      <li class="nav-item">
+        <a class="nav-link" href="https://getbootstrap.com" target="_blank">
+          Web oficial
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="https://getbootstrap.com/docs/5.3/" target="_blank">
+          Documentación
+        </a>
+      </li>
+    </ul>
+  </nav>
+
+  <!-- ============ CONTENIDO PRINCIPAL ============ -->
+  <div id="main-content">
+
+    <!-- HERO -->
+    <div id="hero">
+      <div class="d-flex align-items-center gap-3 mb-2">
+        <div>
+          <h1 class="mb-0">Tutorial de Bootstrap 5</h1>
+          <p class="mb-0 mt-1">Desarrollo de Aplicaciones en Red &mdash; Actividad 2</p>
+        </div>
+      </div>
+      <hr style="border-color: rgba(255,255,255,0.3)"/>
+      <p class="mb-0">
+        En este tutorial voy a intentar explicar como usar Bootstrap desde cero. Cubro desde la instalación hasta crear
+        una pagina web con diseño responsive, componentes y el sistema de grid. La verdad es que me ha costado bastante
+        entender algunas cosas pero creo que al final se entiende bien.
+      </p>
+      <p class="mb-0 mt-2" style="font-size:0.8rem; color:#c9b8f0;">
+        Última actualización: enero 2025 &nbsp;|&nbsp; Actividad 2 — DAR
+      </p>
+    </div>
+
+    <!-- ============================= SECCIÓN 1 ============================= -->
+    <div class="section-card" id="sec1">
+      <h2>1. ¿Qué es Bootstrap?</h2>
+
+      <p>
+        Bootstrap es un <strong>framework de CSS y javascript</strong> de código abierto creado originalmente por
+        Twitter en 2010 (creo que fue en ese año, aunque en algunas webs pone 2011). Basicamente su función es darte
+        una serie de estilos y componentes ya hechos para que puedas construir paginas web rapido y con buen aspecto,
+        sin tener que escribir todo el CSS desde cero.
+      </p>
+
+      <h3>¿Para qué sirve?</h3>
+      <ul>
+        <li>Crear interfaces web responsive (que se adaptan a movil, tablet y escritorio).</li>
+        <li>Usar componentes visuales ya hechos: botones, formularios, tarjetas, menus, alertas, modales, etc.</li>
+        <li>Aplicar estilos de forma rápida usando clases CSS que ya vienen predefinidas en el framework.</li>
+        <li>Ahorrar mucho tiempo en el front-end de una aplicación.</li>
+      </ul>
+
+      <h3>¿Qué aplicaciones tiene?</h3>
+      <p>
+        Bootstrap se usa en casi cualquier tipo de página web: portfolios, tiendas online,
+        paneles de administración, webs de empresas, etc.
+        Es muy habitual verlo en proyectos que necesitan salir rápido sin invertir mucho tiempo en el diseño.
+        Personalmente lo he visto mucho en proyectos de clase y en tutoriales de youtube.
+      </p>
+
+      <h3>¿Sobre qué lenguajes se apoya?</h3>
+      <ul>
+        <li><strong>HTML</strong> — Es el lenguaje base. Bootstrap se usa directamente poniendo clases en las etiquetas HTML.</li>
+        <li><strong>CSS</strong> — Internamente Bootstrap está escrito en Sass, aunque nosotros usamos directamente el CSS ya compilado (no hace falta saber Sass).</li>
+        <li><strong>JavaScript</strong> — Para los componentes interactivos como modales o menus desplegables. En Bootstrap 5 ya no necesita jQuery, que era una libreria que usaban antes (esto lo explica la documentación oficial).</li>
+      </ul>
+
+      <h3>¿Qué prerrequisitos necesita?</h3>
+      <ul>
+        <li>Saber algo de <strong>HTML y CSS</strong> (lo basico).</li>
+        <li>Un navegador web moderno (Chrome, Firefox, Edge…).</li>
+        <li>Un editor de código, yo uso Visual Studio Code.</li>
+        <li>Para la versión CDN: conexion a internet.</li>
+        <li>Para npm: tener instalado <strong>Node.js</strong> (esto es mas avanzado, no hace falta para empezar).</li>
+      </ul>
+
+      <div class="nota">
+        <strong>Nota:</strong> No hace falta saber JavaScript para usar Bootstrap. La mayoría
+        de los componentes funcionan solo con clases en el HTML, sin escribir nada de JS.
+        (Al menos así me funcionó a mi).
+      </div>
+
+      <h3>Versiones principales</h3>
+      <table class="table tabla-version table-bordered mt-2">
+        <thead class="table-dark">
+          <tr>
+            <th>Versión</th>
+            <th>Año</th>
+            <th>Novedad destacada</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Bootstrap 3</td>
+            <td>2013</td>
+            <td>Mobile-first por defecto</td>
+          </tr>
+          <tr>
+            <td>Bootstrap 4</td>
+            <td>2018</td>
+            <td>Flexbox, variables CSS, grid mejorado</td>
+          </tr>
+          <tr class="table-primary">
+            <td><strong>Bootstrap 5 ✓</strong></td>
+            <td>2021</td>
+            <td>Sin jQuery, nuevas utilidades, CSS custom properties</td>
+          </tr>
+        </tbody>
+      </table>
+      <p>En este tutorial usaremos <strong>Bootstrap 5.3</strong>, que es la version mas reciente. Hay que tener cuidado porque Bootstrap 4 y 5 no son totalmente compatibles, algunas clases cambiaron (me lo encontre cuando seguia tutoriales antiguos de youtube y no me funcionaba nada).</p>
+    </div>
+
+    <!-- ============================= SECCIÓN 2 ============================= -->
+    <div class="section-card" id="sec2">
+      <h2>2. Instalación</h2>
+
+      <p>
+        Bootstrap se puede incluir en un proyecto de varias formas. Las dos mas comunes son: usando un CDN (un enlace
+        externo que carga los archivos de internet) o descargando los archivos a tu ordenador.
+        Para empezar lo mas facil es el CDN, que es lo que voy a usar yo aqui.
+      </p>
+
+      <h3>Opción A: CDN (recomendada para empezar)</h3>
+      <p>
+        No hace falta instalar nada. Solo hay que añadir dos etiquetas en el HTML:
+        una en el <code>&lt;head&gt;</code> para el CSS y otra antes de cerrar el <code>&lt;body&gt;</code> para el JS.
+      </p>
+
+      <pre><code>&lt;!-- CSS de Bootstrap (va en el &lt;head&gt;) --&gt;
+&lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"&gt;
+
+&lt;!-- JS de Bootstrap (va antes de &lt;/body&gt;, importante que sea al final) --&gt;
+&lt;!-- nota: si no funciona algo interactivo probablemente es porque no tienes esto --&gt;
+&lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"&gt;
+&lt;/script&gt;</code></pre>
+
+      <div class="consejo">
+        <strong>Consejo:</strong> El archivo <code>bootstrap.bundle.min.js</code> ya incluye algo que se llama Popper.js
+        por dentro, que necesitan algunos componentes para funcionar (como los menus desplegables). Asi que con ese
+        solo script es suficiente, no hay que añadir nada más.
+      </div>
+
+      <h3>Opción B: Descarga directa</h3>
+      <ol>
+        <li>Ir a <a href="https://getbootstrap.com/docs/5.3/getting-started/download/" target="_blank">getbootstrap.com/download</a>.</li>
+        <li>Descargar el ZIP con los archivos compilados.</li>
+        <li>Descomprimir y copiar <code>bootstrap.min.css</code> y <code>bootstrap.bundle.min.js</code> al proyecto.</li>
+        <li>Enlazarlos con rutas locales en lugar de CDN.</li>
+      </ol>
+
+      <pre><code>&lt;!-- Rutas locales --&gt;
+&lt;link rel="stylesheet" href="css/bootstrap.min.css"&gt;
+&lt;script src="js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;</code></pre>
+
+      <h3>Opción C: npm (para proyectos más avanzados)</h3>
+      <p>Si tienes Node.js instalado, puedes instalar Bootstrap como paquete:</p>
+      <pre><code>npm install bootstrap@5.3.2</code></pre>
+      <p>Y luego importarlo en tu archivo JS principal:</p>
+      <pre><code>import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';</code></pre>
+
+      <h3>¿Se necesita base de datos?</h3>
+      <p>
+        No. Bootstrap es un framework de <strong>front-end</strong> puro: solo afecta a la capa visual de la página.
+        No tiene ninguna relación con bases de datos ni con el servidor.
+      </p>
+
+      <h3>¿Necesita variables de entorno?</h3>
+      <p>
+        No en la forma básica de uso. Solo si usas herramientas de construcción como Webpack o Vite con Sass
+        necesitarías configurar rutas de importación en el archivo de configuración del proyecto.
+      </p>
+
+      <h3>Versiones necesarias</h3>
+      <ul>
+        <li>Node.js: 14 o superior (solo si se usa npm).</li>
+        <li>Navegador: cualquier navegador moderno compatible con ES6 y CSS Grid.</li>
+        <li>Bootstrap 5.x <strong>no funciona correctamente en Internet Explorer</strong>.</li>
+      </ul>
+    </div>
+
+    <!-- ============================= SECCIÓN 3 ============================= -->
+    <div class="section-card" id="sec3">
+      <h2>3. Primeros pasos: Hola Mundo</h2>
+
+      <p>
+        Aqui vamos a hacer la primera prueba. Yo recomiendo abrir el VSCode y crear un archivo nuevo que se llame
+        <code>index.html</code>. Luego copias esta estructura y ya puedes empezar a jugar con las clases.
+      </p>
+
+      <h3>Estructura minima de un archivo HTML con Bootstrap</h3>
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Mi primera página con Bootstrap&lt;/title&gt;
+
+  &lt;!-- esto carga el CSS de bootstrap, sin esto no funciona nada --&gt;
+  &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;div class="container"&gt;
+    &lt;h1 class="text-center mt-5"&gt;¡Hola Mundo con Bootstrap!&lt;/h1&gt;
+    &lt;p class="text-center text-muted"&gt;Esta es mi primera página con Bootstrap.&lt;/p&gt;
+    &lt;div class="text-center"&gt;
+      &lt;button class="btn btn-primary"&gt;Haz clic aquí&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;!-- el JS va siempre al final, antes del cierre del body --&gt;
+  &lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"&gt;
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <h3>Resultado visual</h3>
+      <div class="resultado-visual">
+        <div class="label">Vista previa</div>
+        <div class="container text-center py-3">
+          <h1>¡Hola Mundo con Bootstrap!</h1>
+          <p class="text-muted">Esta es mi primera página con Bootstrap.</p>
+          <button class="btn btn-primary">Haz clic aquí</button>
+        </div>
+      </div>
+
+      <h3>¿Qué hace cada clase?</h3>
+      <ul>
+        <li><code>container</code> — Añade margenes laterales y centra el contenido. Hay tambien <code>container-fluid</code> que ocupa todo el ancho (yo al principio los confundia).</li>
+        <li><code>text-center</code> — Centra el texto.</li>
+        <li><code>mt-5</code> — Añade margen arriba (margin-top). El número va del 0 al 5.</li>
+        <li><code>text-muted</code> — Pone el texto en gris clarito.</li>
+        <li><code>btn btn-primary</code> — Convierte el elemento en un boton azul de Bootstrap. Siempre hay que poner las dos clases juntas.</li>
+      </ul>
+
+      <div class="nota">
+        <strong>Importante:</strong> No olvidarse de la etiqueta <code>&lt;meta name="viewport"...&gt;</code>.
+        Si no la pones el responsive no funciona bien en el movil. A mi me paso y no entendia porque la pagina se veia rara en el telefono.
+      </div>
+
+      <h3>¿Cómo ver el resultado?</h3>
+      <ol>
+        <li>Guardar el archivo como <code>index.html</code>.</li>
+        <li>Abrirlo en el navegador haciendo doble clic (o arrastrarlo a Chrome).</li>
+        <li>Si usas Visual Studio Code, hay una extension que se llama <strong>Live Server</strong> que recarga la pagina sola cada vez que guardas. La recomiendo mucho.</li>
+      </ol>
+    </div>
+
+    <!-- ============================= SECCIÓN UTILIZACIÓN ============================= -->
+    <div class="section-card" id="sec_util">
+      <h2>4. Utilización del framework</h2>
+
+      <h3>¿Cómo empezar a crear una aplicación base?</h3>
+      <p>
+        Para empezar un proyecto con Bootstrap desde cero los pasos son bastante sencillos. Basicamente hay que
+        crear un archivo HTML con la estructura minima y a partir de ahi ir añadiendo componentes.
+      </p>
+
+      <p>Estos serian los pasos que yo sigo:</p>
+      <ol style="padding-left:1.5rem; line-height:2">
+        <li>Crear una carpeta para el proyecto (por ejemplo <code>mi-proyecto/</code>).</li>
+        <li>Dentro, crear el archivo <code>index.html</code>.</li>
+        <li>Pegar la estructura minima con los enlaces al CDN de Bootstrap (como se vio en la seccion anterior).</li>
+        <li>Dentro del <code>&lt;body&gt;</code> añadir un <code>&lt;div class="container"&gt;</code> como contenedor principal.</li>
+        <li>Desde ahi ya se pueden ir añadiendo filas (<code>row</code>), columnas (<code>col</code>) y componentes.</li>
+      </ol>
+
+      <p>La estructura de carpetas de un proyecto sencillo con Bootstrap quedaria algo asi:</p>
+      <pre><code>mi-proyecto/
+├── index.html          &lt;-- archivo principal
+├── css/
+│   └── estilos.css     &lt;-- CSS propio (opcional, si quieres personalizar)
+└── img/
+    └── foto.jpg        &lt;-- imagenes que uses</code></pre>
+
+      <div class="nota">
+        <strong>Nota:</strong> Si usas solo el CDN no hace falta la carpeta <code>css/</code> para Bootstrap,
+        porque los archivos se cargan de internet. Yo la uso cuando quiero añadir mis propios estilos encima.
+      </div>
+
+      <h3>¿Cómo crear una primera página con Bootstrap paso a paso?</h3>
+      <p>
+        Aparte del Hola Mundo de la seccion anterior, para tener una "aplicacion base" mas completa lo normal
+        es partir de esta plantilla y ir rellenando:
+      </p>
+
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Mi App&lt;/title&gt;
+  &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+  &lt;!-- si tienes CSS propio lo enlazas despues del de Bootstrap --&gt;
+  &lt;link rel="stylesheet" href="css/estilos.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;!-- 1. Navbar arriba --&gt;
+  &lt;nav class="navbar navbar-expand-lg bg-dark navbar-dark"&gt;
+    &lt;div class="container"&gt;
+      &lt;a class="navbar-brand" href="#"&gt;MiApp&lt;/a&gt;
+    &lt;/div&gt;
+  &lt;/nav&gt;
+
+  &lt;!-- 2. Contenido principal --&gt;
+  &lt;main class="container mt-4"&gt;
+    &lt;div class="row"&gt;
+      &lt;div class="col-md-8"&gt;
+        &lt;h1&gt;Titulo principal&lt;/h1&gt;
+        &lt;p&gt;Contenido de la pagina...&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="col-md-4"&gt;
+        &lt;!-- barra lateral --&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/main&gt;
+
+  &lt;!-- 3. Footer abajo --&gt;
+  &lt;footer class="bg-dark text-white text-center py-3 mt-5"&gt;
+    &lt;p class="mb-0"&gt;Mi App &copy; 2025&lt;/p&gt;
+  &lt;/footer&gt;
+
+  &lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"&gt;&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <h3>¿Cómo visualizar los resultados de la ejecución?</h3>
+      <p>
+        Bootstrap no es como un programa que se "ejecuta", es simplemente un archivo HTML que se abre en el navegador.
+        No hay que compilar nada ni arrancar ningun servidor (a no ser que el proyecto use Node.js o similar).
+        Las formas de verlo son:
+      </p>
+
+      <ul>
+        <li>
+          <strong>Doble clic en el archivo .html</strong> — la opcion mas simple. Se abre directamente en el navegador.
+          El problema es que cada vez que guardas hay que refrescar manualmente con F5.
+        </li>
+        <li>
+          <strong>Live Server (extension de VSCode)</strong> — la que yo recomiendo. Se instala en VSCode, haces clic
+          en "Go Live" abajo a la derecha, y la pagina se recarga automaticamente cada vez que guardas el archivo.
+        </li>
+        <li>
+          <strong>Herramientas de desarrollador del navegador (F12)</strong> — muy util para ver como queda en
+          distintos tamaños de pantalla. En Chrome hay un icono de movil arriba a la izquierda del inspector
+          que simula distintos dispositivos.
+        </li>
+      </ul>
+
+      <div class="resultado-visual">
+        <div class="label">Consejo — vista responsive en Chrome</div>
+        <p class="mb-1 small">Para simular como se ve la pagina en movil sin tener que usar el telefono:</p>
+        <ol class="small mb-0">
+          <li>Abre el archivo en Chrome</li>
+          <li>Pulsa <strong>F12</strong> para abrir las herramientas de desarrollador</li>
+          <li>Haz clic en el icono de movil/tablet que aparece arriba a la izquierda</li>
+          <li>Selecciona el dispositivo que quieras simular en el desplegable</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- ============================= SECCIÓN FUNCIONAMIENTO ============================= -->
+    <div class="section-card" id="sec_func">
+      <h2>5. Explicación del funcionamiento del framework</h2>
+
+      <h3>¿Actúa sobre páginas, ficheros, secciones...?</h3>
+      <p>
+        Bootstrap actua principalmente a nivel de <strong>ficheros HTML</strong> y <strong>secciones dentro de esos ficheros</strong>.
+        No es un framework que genere paginas automaticamente ni que tenga una estructura de rutas como podria
+        tener Next.js o Laravel. Simplemente añades sus clases a las etiquetas HTML que ya tienes y el
+        framework se encarga de aplicarles los estilos.
+      </p>
+      <p>
+        Dicho de otra forma: Bootstrap no sabe ni le importa como esta organizado tu proyecto. Da igual si
+        tienes un solo archivo HTML o cien. En cada uno que quieras usar Bootstrap simplemente tienes que
+        enlazar el CSS (y el JS si necesitas componentes interactivos).
+      </p>
+
+      <pre><code>&lt;!-- Bootstrap actua sobre cualquier etiqueta a la que le pongas sus clases --&gt;
+&lt;div class="container"&gt;         &lt;!-- actua sobre este div --&gt;
+  &lt;p class="text-primary"&gt;...&lt;/p&gt;  &lt;!-- y sobre este parrafo --&gt;
+  &lt;button class="btn btn-danger"&gt;   &lt;!-- y sobre este boton --&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Este parrafo no tiene clases de Bootstrap, se queda con el estilo por defecto&lt;/p&gt;</code></pre>
+
+      <div class="nota">
+        <strong>Nota:</strong> Bootstrap tambien aplica algunos estilos globales al documento entero nada mas
+        cargarlo (reseteando margenes, cambiando el box-sizing, etc.). Esto se llama "Reboot" y puede hacer que
+        algunas cosas cambien de aspecto aunque no hayas puesto ninguna clase.
+      </div>
+
+      <h3>¿Cómo se editan y modifican los ficheros?</h3>
+      <p>
+        Los ficheros de Bootstrap en si (el CSS y el JS) <strong>no se editan directamente</strong>. Lo que
+        se hace es escribir el HTML con las clases de Bootstrap y si se quiere personalizar algo se añade
+        CSS propio por encima, en un archivo separado o en una etiqueta <code>&lt;style&gt;</code>.
+      </p>
+      <p>
+        La clave esta en el <strong>orden de los enlaces</strong>: el CSS de Bootstrap tiene que ir primero,
+        y el CSS propio despues. Asi las reglas propias sobreescriben las de Bootstrap cuando hay conflicto.
+      </p>
+
+      <pre><code>&lt;head&gt;
+  &lt;!-- 1. Primero Bootstrap (base) --&gt;
+  &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+
+  &lt;!-- 2. Despues mi CSS propio (sobreescribe lo que quiera cambiar) --&gt;
+  &lt;link rel="stylesheet" href="css/mis-estilos.css"&gt;
+&lt;/head&gt;</code></pre>
+
+      <p>Por ejemplo, si quiero cambiar el color del boton primary:</p>
+
+      <pre><code>/* En mi archivo mis-estilos.css */
+.btn-primary {
+  background-color: #e63946;  /* rojo en lugar del azul de Bootstrap */
+  border-color: #e63946;
+}
+
+/* O puedo crear una clase nueva que no exista en Bootstrap */
+.mi-seccion-especial {
+  background-color: #f1faee;
+  padding: 2rem;
+  border-radius: 12px;
+}</code></pre>
+
+      <div class="consejo">
+        <strong>Consejo:</strong> Nunca edites directamente los archivos de Bootstrap (el bootstrap.min.css).
+        Si los actualizas en el futuro perderas todos los cambios. Siempre usa un archivo CSS propio separado.
+      </div>
+
+      <h3>¿Cómo se referencian los ficheros desde otras aplicaciones?</h3>
+      <p>
+        Hay dos formas de referenciar Bootstrap desde un proyecto, dependiendo de si lo tienes descargado
+        localmente o lo cargas desde internet:
+      </p>
+
+      <p><strong>Opción A: CDN (internet)</strong> — lo mas sencillo, no hay que gestionar archivos:</p>
+      <pre><code>&lt;!-- Se carga desde internet, no importa donde este el HTML --&gt;
+&lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"&gt;</code></pre>
+
+      <p><strong>Opción B: Archivo local</strong> — cuando se ha descargado Bootstrap a la carpeta del proyecto:</p>
+      <pre><code>&lt;!-- La ruta es relativa al archivo HTML --&gt;
+
+&lt;!-- Si el HTML esta en la raiz y el CSS en una subcarpeta css/ --&gt;
+&lt;link rel="stylesheet" href="css/bootstrap.min.css"&gt;
+
+&lt;!-- Si el HTML esta en una subcarpeta y el CSS en otra --&gt;
+&lt;link rel="stylesheet" href="../css/bootstrap.min.css"&gt;
+
+&lt;!-- Si el HTML y el CSS estan en la misma carpeta --&gt;
+&lt;link rel="stylesheet" href="bootstrap.min.css"&gt;</code></pre>
+
+      <p>
+        Para el JS es exactamente igual, cambiando <code>.css</code> por <code>.bundle.min.js</code>
+        y poniendolo antes del cierre de <code>&lt;/body&gt;</code>.
+      </p>
+
+      <div class="nota">
+        <strong>Ojo con las rutas relativas:</strong> Si abres el HTML haciendo doble clic y las imagenes o
+        archivos CSS no cargan, probablemente la ruta esta mal. Un truco para verificarlo es abrir la consola
+        del navegador (F12) y mirar si hay errores en rojo que digan "404" o "Failed to load resource".
+      </div>
+
+      <h3>¿Cómo afecta Bootstrap a distintos tipos de elementos HTML?</h3>
+      <p>
+        Aunque Bootstrap funciona añadiendo clases a cualquier etiqueta, hay algunos elementos sobre los que
+        actua de forma especial:
+      </p>
+      <ul>
+        <li><strong>Contenedores (<code>div</code>, <code>section</code>, <code>main</code>...)</strong> — se les aplican clases de layout como <code>container</code>, <code>row</code>, <code>col</code>.</li>
+        <li><strong>Tipografia (<code>h1-h6</code>, <code>p</code>, <code>span</code>)</strong> — clases de texto como <code>text-primary</code>, <code>fw-bold</code>, <code>lead</code>.</li>
+        <li><strong>Formularios (<code>input</code>, <code>select</code>, <code>textarea</code>)</strong> — Bootstrap los estiliza con <code>form-control</code> para que queden uniformes.</li>
+        <li><strong>Botones (<code>button</code>, <code>a</code>)</strong> — con las clases <code>btn</code> y <code>btn-*</code>.</li>
+        <li><strong>Tablas (<code>table</code>)</strong> — con <code>table</code>, <code>table-striped</code>, <code>table-bordered</code>, etc.</li>
+        <li><strong>Imagenes (<code>img</code>)</strong> — con <code>img-fluid</code> para que sean responsive y no se salgan del contenedor.</li>
+      </ul>
+    </div>
+
+    <!-- ============================= SECCIÓN 4 ============================= -->
+    <div class="section-card" id="sec4">
+      <h2>6. Sistema de Grid (cuadrícula)</h2>
+
+      <p>
+        Esta parte al principio me costó un poco entender pero una vez que le pillas el truco es muy util.
+        Bootstrap divide la pantalla en <strong>12 columnas</strong> y tu decides cuantas columnas ocupa
+        cada elemento. Asi puedes hacer layouts de forma muy rapida.
+      </p>
+
+      <h3>Concepto básico</h3>
+      <p>
+        Siempre hay que seguir esta estructura: <code>container</code> > <code>row</code> > <code>col</code>.
+        Si no pones el row las columnas no funcionan bien (me paso varias veces).
+        La suma de columnas en una fila tiene que ser 12 o menos.
+      </p>
+
+      <pre><code>&lt;div class="container"&gt;
+  &lt;div class="row"&gt;
+    &lt;div class="col-6"&gt;Columna 1 (ocupa la mitad)&lt;/div&gt;
+    &lt;div class="col-6"&gt;Columna 2 (ocupa la mitad)&lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+      <div class="resultado-visual">
+        <div class="label">Vista previa</div>
+        <div class="row text-center g-2">
+          <div class="col-6"><div class="bg-primary text-white p-2 rounded">Columna 1 (6/12)</div></div>
+          <div class="col-6"><div class="bg-secondary text-white p-2 rounded">Columna 2 (6/12)</div></div>
+        </div>
+      </div>
+
+      <h3>Más ejemplos de distribución</h3>
+      <pre><code>&lt;!-- Tres columnas iguales --&gt;
+&lt;div class="row"&gt;
+  &lt;div class="col-4"&gt;1/3 de ancho&lt;/div&gt;
+  &lt;div class="col-4"&gt;1/3 de ancho&lt;/div&gt;
+  &lt;div class="col-4"&gt;1/3 de ancho&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Una columna ancha y una estrecha --&gt;
+&lt;div class="row"&gt;
+  &lt;div class="col-8"&gt;Contenido principal&lt;/div&gt;
+  &lt;div class="col-4"&gt;Barra lateral&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;!-- Columnas automáticas (se reparten el espacio solas) --&gt;
+&lt;div class="row"&gt;
+  &lt;div class="col"&gt;Auto&lt;/div&gt;
+  &lt;div class="col"&gt;Auto&lt;/div&gt;
+  &lt;div class="col"&gt;Auto&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+      <div class="resultado-visual">
+        <div class="label">Vista previa — Tres columnas automáticas</div>
+        <div class="row text-center g-2 mt-1">
+          <div class="col"><div class="bg-success text-white p-2 rounded">Auto</div></div>
+          <div class="col"><div class="bg-danger text-white p-2 rounded">Auto</div></div>
+          <div class="col"><div class="bg-warning text-dark p-2 rounded">Auto</div></div>
+        </div>
+      </div>
+
+      <h3>Grid responsive con breakpoints</h3>
+      <p>
+        Esto es la parte mas potente del grid. Se pueden poner varias clases en el mismo elemento para que se
+        comporte diferente segun el tamaño de pantalla. Los prefijos son estos (los tuve que mirar varias veces
+        hasta aprenderlos):
+      </p>
+      <table class="table table-bordered tabla-version">
+        <thead class="table-dark">
+          <tr>
+            <th>Clase</th>
+            <th>Breakpoint</th>
+            <th>Ancho mínimo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><code>col-</code></td><td>Extra small (xs)</td><td>menor de 576px</td></tr>
+          <tr><td><code>col-sm-</code></td><td>Small</td><td>≥ 576px</td></tr>
+          <tr><td><code>col-md-</code></td><td>Medium</td><td>≥ 768px</td></tr>
+          <tr><td><code>col-lg-</code></td><td>Large</td><td>≥ 992px</td></tr>
+          <tr><td><code>col-xl-</code></td><td>Extra large</td><td>≥ 1200px</td></tr>
+          <tr><td><code>col-xxl-</code></td><td>XXL</td><td>≥ 1400px</td></tr>
+        </tbody>
+      </table>
+
+      <pre><code>&lt;!-- En móvil: una columna. En tablet (md): dos. En escritorio (lg): cuatro --&gt;
+&lt;div class="row"&gt;
+  &lt;div class="col-12 col-md-6 col-lg-3"&gt;Item 1&lt;/div&gt;
+  &lt;div class="col-12 col-md-6 col-lg-3"&gt;Item 2&lt;/div&gt;
+  &lt;div class="col-12 col-md-6 col-lg-3"&gt;Item 3&lt;/div&gt;
+  &lt;div class="col-12 col-md-6 col-lg-3"&gt;Item 4&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- ============================= SECCIÓN 5 ============================= -->
+    <div class="section-card" id="sec5">
+      <h2>7. Componentes principales</h2>
+
+      <p>
+        Esta es la sección mas larga pero tambien la mas útil. Bootstrap tiene un monton de componentes ya hechos.
+        Aqui solo pongo los que mas he usado yo, hay muchos mas en la documentación oficial.
+      </p>
+
+      <!-- BOTONES -->
+      <h3>5.1 Botones</h3>
+      <p>Los botones se crean con la clase <code>btn</code> mas otra clase que define el color. Hay que poner siempre las dos.</p>
+      <pre><code>&lt;button class="btn btn-primary"&gt;Primario&lt;/button&gt;
+&lt;button class="btn btn-secondary"&gt;Secundario&lt;/button&gt;
+&lt;button class="btn btn-success"&gt;Éxito&lt;/button&gt;
+&lt;button class="btn btn-danger"&gt;Peligro&lt;/button&gt;
+&lt;button class="btn btn-warning"&gt;Aviso&lt;/button&gt;
+&lt;button class="btn btn-outline-primary"&gt;Contorno (solo borde)&lt;/button&gt;
+&lt;button class="btn btn-lg btn-primary"&gt;Grande&lt;/button&gt;
+&lt;button class="btn btn-sm btn-primary"&gt;Pequeño&lt;/button&gt;
+&lt;!-- tambien existe btn-dark, btn-light, btn-info... hay bastantes --&gt;</code></pre>
+
+      <div class="resultado-visual">
+        <div class="label">Vista previa</div>
+        <div class="d-flex flex-wrap gap-2 mt-1">
+          <button class="btn btn-primary">Primario</button>
+          <button class="btn btn-secondary">Secundario</button>
+          <button class="btn btn-success">Éxito</button>
+          <button class="btn btn-danger">Peligro</button>
+          <button class="btn btn-warning">Aviso</button>
+          <button class="btn btn-outline-primary">Contorno</button>
+          <button class="btn btn-lg btn-primary">Grande</button>
+          <button class="btn btn-sm btn-primary">Pequeño</button>
+        </div>
+      </div>
+
+      <!-- ALERTAS -->
+      <h3>5.2 Alertas</h3>
+      <pre><code>&lt;div class="alert alert-success"&gt;Operación completada con éxito.&lt;/div&gt;
+&lt;div class="alert alert-danger"&gt;Ha ocurrido un error.&lt;/div&gt;
+&lt;div class="alert alert-warning"&gt;Cuidado, revisa los datos.&lt;/div&gt;
+&lt;div class="alert alert-info"&gt;Información importante.&lt;/div&gt;</code></pre>
+
+      <div class="resultado-visual">
+        <div class="label">Vista previa</div>
+        <div class="alert alert-success">Operación completada con éxito.</div>
+        <div class="alert alert-danger">Ha ocurrido un error.</div>
+        <div class="alert alert-warning">Cuidado, revisa los datos.</div>
+        <div class="alert alert-info">Información importante.</div>
+      </div>
+
+      <!-- TARJETAS -->
+      <h3>5.3 Tarjetas (Cards)</h3>
+      <pre><code>&lt;div class="card" style="width: 300px"&gt;
+  &lt;div class="card-header"&gt;Título de la tarjeta&lt;/div&gt;
+  &lt;div class="card-body"&gt;
+    &lt;h5 class="card-title"&gt;Bootstrap Cards&lt;/h5&gt;
+    &lt;p class="card-text"&gt;Las cards son contenedores flexibles con opciones de cabecera, cuerpo y pie.&lt;/p&gt;
+    &lt;a href="#" class="btn btn-primary"&gt;Ver más&lt;/a&gt;
+  &lt;/div&gt;
+  &lt;div class="card-footer text-muted"&gt;Hace 3 días&lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+      <div class="resultado-visual">
+        <div class="label">Vista previa</div>
+        <div class="card" style="max-width: 300px">
+          <div class="card-header">Título de la tarjeta</div>
+          <div class="card-body">
+            <h5 class="card-title">Bootstrap Cards</h5>
+            <p class="card-text">Las cards son contenedores flexibles con opciones de cabecera, cuerpo y pie.</p>
+            <a href="#" class="btn btn-primary">Ver más</a>
+          </div>
+          <div class="card-footer text-muted">Hace 3 días</div>
+        </div>
+      </div>
+
+      <!-- NAVBAR -->
+      <h3>5.4 Barra de navegación (Navbar)</h3>
+      <p>La navbar es uno de los componentes que mas tiempo me llevo entender. Para que el boton de "hamburguesa" (el que aparece en movil) funcione hay que tener el JS cargado, si no no hace nada.</p>
+      <pre><code>&lt;nav class="navbar navbar-expand-lg bg-dark navbar-dark"&gt;
+  &lt;div class="container"&gt;
+    &lt;a class="navbar-brand" href="#"&gt;MiSitio&lt;/a&gt;
+    &lt;!-- este botón aparece en movil cuando el menú se colapsa --&gt;
+    &lt;button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse" data-bs-target="#navMenu"&gt;
+      &lt;span class="navbar-toggler-icon"&gt;&lt;/span&gt;
+    &lt;/button&gt;
+    &lt;div class="collapse navbar-collapse" id="navMenu"&gt;
+      &lt;ul class="navbar-nav"&gt;
+        &lt;li class="nav-item"&gt;&lt;a class="nav-link active" href="#"&gt;Inicio&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="nav-item"&gt;&lt;a class="nav-link" href="#"&gt;Sobre mí&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="nav-item"&gt;&lt;a class="nav-link" href="#"&gt;Contacto&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;
+&lt;!-- IMPORTANTE: el id del data-bs-target tiene que coincidir con el id del div de abajo --&gt;</code></pre>
+
+      <div class="resultado-visual">
+        <div class="label">Vista previa</div>
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark rounded">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">MiSitio</a>
+            <div>
+              <ul class="navbar-nav flex-row gap-3">
+                <li class="nav-item"><a class="nav-link active" href="#">Inicio</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Sobre mí</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+
+      <!-- FORMULARIOS -->
+      <h3>5.5 Formularios</h3>
+      <pre><code>&lt;form&gt;
+  &lt;div class="mb-3"&gt;
+    &lt;label class="form-label"&gt;Nombre&lt;/label&gt;
+    &lt;input type="text" class="form-control" placeholder="Tu nombre"&gt;
+  &lt;/div&gt;
+  &lt;div class="mb-3"&gt;
+    &lt;label class="form-label"&gt;Email&lt;/label&gt;
+    &lt;input type="email" class="form-control" placeholder="tu@email.com"&gt;
+  &lt;/div&gt;
+  &lt;div class="mb-3 form-check"&gt;
+    &lt;input type="checkbox" class="form-check-input" id="acepto"&gt;
+    &lt;label class="form-check-label" for="acepto"&gt;Acepto los términos&lt;/label&gt;
+  &lt;/div&gt;
+  &lt;button type="submit" class="btn btn-primary"&gt;Enviar&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+
+      <div class="resultado-visual">
+        <div class="label">Vista previa</div>
+        <form>
+          <div class="mb-3">
+            <label class="form-label">Nombre</label>
+            <input type="text" class="form-control" placeholder="Tu nombre">
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Email</label>
+            <input type="email" class="form-control" placeholder="tu@email.com">
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="acepto2">
+            <label class="form-check-label" for="acepto2">Acepto los términos</label>
+          </div>
+          <button type="submit" class="btn btn-primary">Enviar</button>
+        </form>
+      </div>
+
+      <!-- MODAL -->
+      <h3>5.6 Modal (ventana emergente)</h3>
+      <p>El modal es bastante util para mostrar informacion extra sin salir de la página. Lo mejor es que funciona sin escribir nada de JavaScript, solo con los atributos <code>data-bs-toggle</code> y <code>data-bs-target</code>.</p>
+      <pre><code>&lt;!-- Botón que abre el modal --&gt;
+&lt;button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#miModal"&gt;
+  Abrir modal
+&lt;/button&gt;
+
+&lt;!-- Estructura del modal --&gt;
+&lt;!-- el tabindex="-1" no sé muy bien para que sirve, lo puse porque lo vi en la documentacion --&gt;
+&lt;div class="modal fade" id="miModal" tabindex="-1"&gt;
+  &lt;div class="modal-dialog"&gt;
+    &lt;div class="modal-content"&gt;
+      &lt;div class="modal-header"&gt;
+        &lt;h5 class="modal-title"&gt;Título del modal&lt;/h5&gt;
+        &lt;button type="button" class="btn-close" data-bs-dismiss="modal"&gt;&lt;/button&gt;
+      &lt;/div&gt;
+      &lt;div class="modal-body"&gt;
+        Aquí va el contenido del modal.
+      &lt;/div&gt;
+      &lt;div class="modal-footer"&gt;
+        &lt;button class="btn btn-secondary" data-bs-dismiss="modal"&gt;Cerrar&lt;/button&gt;
+        &lt;button class="btn btn-primary"&gt;Guardar&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/div&gt;</code></pre>
+
+      <div class="resultado-visual">
+        <div class="label">Vista previa — Prueba el modal</div>
+        <button class="btn btn-primary mt-1" data-bs-toggle="modal" data-bs-target="#miModal">
+          Abrir modal de ejemplo
+        </button>
+      </div>
+
+      <!-- Modal real -->
+      <div class="modal fade" id="miModal" tabindex="-1">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title">Título del modal</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              Esto es un modal de Bootstrap. Se abre y cierra sin escribir JavaScript.
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+              <button class="btn btn-primary">Guardar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================= SECCIÓN 6 ============================= -->
+    <div class="section-card" id="sec6">
+      <h2>8. Diseño Responsive y Utilidades</h2>
+
+      <p>
+        Bootstrap tiene un monton de clases de utilidad que te ahorran tener que escribir CSS propio.
+        Al principio puede abrumar la cantidad de clases que hay pero con la practica se van aprendiendo.
+        <!-- TODO: añadir mas ejemplos de utilidades aqui -->
+      </p>
+
+      <h3>6.1 Clases de espaciado (margin y padding)</h3>
+      <p>
+        El formato es: <code>{propiedad}{lado}-{tamaño}</code>. Al principio parece confuso pero es bastante logico cuando lo entiendes.
+      </p>
+      <ul>
+        <li>Propiedad: <code>m</code> para margin o <code>p</code> para padding.</li>
+        <li>Lado: <code>t</code> arriba, <code>b</code> abajo, <code>s</code> izquierda, <code>e</code> derecha, <code>x</code> horizontal, <code>y</code> vertical. Si no pones nada aplica a todos los lados.</li>
+        <li>Tamaño: del <code>0</code> al <code>5</code>. Tambien existe <code>auto</code>.</li>
+      </ul>
+      <pre><code>&lt;div class="mt-3"&gt;Margin top 3&lt;/div&gt;
+&lt;div class="px-4 py-2"&gt;Padding horizontal 4 y vertical 2&lt;/div&gt;
+&lt;div class="ms-auto"&gt;Margin izquierda automático (empuja a la derecha)&lt;/div&gt;</code></pre>
+
+      <h3>6.2 Clases de texto</h3>
+      <pre><code>&lt;p class="text-primary"&gt;Texto azul (primary)&lt;/p&gt;
+&lt;p class="text-danger"&gt;Texto rojo&lt;/p&gt;
+&lt;p class="text-muted"&gt;Texto gris apagado&lt;/p&gt;
+&lt;p class="fw-bold"&gt;Texto en negrita&lt;/p&gt;
+&lt;p class="fst-italic"&gt;Texto en cursiva&lt;/p&gt;
+&lt;p class="text-uppercase"&gt;Todo en mayúsculas&lt;/p&gt;
+&lt;p class="fs-1"&gt;Fuente tamaño 1 (el más grande)&lt;/p&gt;</code></pre>
+
+      <div class="resultado-visual">
+        <div class="label">Vista previa</div>
+        <p class="text-primary mb-1">Texto azul (primary)</p>
+        <p class="text-danger mb-1">Texto rojo</p>
+        <p class="text-muted mb-1">Texto gris apagado</p>
+        <p class="fw-bold mb-1">Texto en negrita</p>
+        <p class="fst-italic mb-1">Texto en cursiva</p>
+        <p class="text-uppercase mb-0">Todo en mayúsculas</p>
+      </div>
+
+      <h3>6.3 Mostrar/ocultar según pantalla</h3>
+      <pre><code>&lt;!-- Solo visible en móvil --&gt;
+&lt;div class="d-block d-md-none"&gt;Solo en móvil&lt;/div&gt;
+
+&lt;!-- Solo visible en escritorio (md en adelante) --&gt;
+&lt;div class="d-none d-md-block"&gt;Solo en escritorio&lt;/div&gt;</code></pre>
+
+      <h3>6.4 Flexbox con Bootstrap</h3>
+      <pre><code>&lt;div class="d-flex justify-content-between align-items-center"&gt;
+  &lt;span&gt;Izquierda&lt;/span&gt;
+  &lt;span&gt;Centro&lt;/span&gt;
+  &lt;span&gt;Derecha&lt;/span&gt;
+&lt;/div&gt;</code></pre>
+
+      <div class="resultado-visual">
+        <div class="label">Vista previa</div>
+        <div class="d-flex justify-content-between align-items-center bg-light p-2 rounded">
+          <span class="badge bg-primary">Izquierda</span>
+          <span class="badge bg-secondary">Centro</span>
+          <span class="badge bg-success">Derecha</span>
+        </div>
+      </div>
+
+      <h3>6.5 Colores de fondo</h3>
+      <pre><code>&lt;div class="bg-primary text-white p-2"&gt;Fondo azul&lt;/div&gt;
+&lt;div class="bg-light text-dark p-2"&gt;Fondo claro&lt;/div&gt;
+&lt;div class="bg-dark text-white p-2"&gt;Fondo oscuro&lt;/div&gt;</code></pre>
+    </div>
+
+    <!-- ============================= SECCIÓN 7 ============================= -->
+    <div class="section-card" id="sec7">
+      <h2>9. Ejemplo completo: Página de perfil</h2>
+
+      <p>
+        Aqui junto todo lo que he ido viendo en las secciones anteriores para hacer una pagina de perfil personal.
+        Es el tipo de cosa que podria usar como portfolio. No es perfecta pero para un primer proyecto con Bootstrap
+        creo que esta bastante bien.
+      </p>
+
+      <h3>Código completo</h3>
+      <pre><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="es"&gt;
+&lt;head&gt;
+  &lt;meta charset="UTF-8"&gt;
+  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+  &lt;title&gt;Mi Perfil&lt;/title&gt;
+  &lt;link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;!-- Navbar --&gt;
+&lt;nav class="navbar navbar-expand-lg bg-dark navbar-dark"&gt;
+  &lt;div class="container"&gt;
+    &lt;a class="navbar-brand" href="#"&gt;Mi Portfolio&lt;/a&gt;
+    &lt;div class="collapse navbar-collapse"&gt;
+      &lt;ul class="navbar-nav ms-auto"&gt;
+        &lt;li class="nav-item"&gt;&lt;a class="nav-link" href="#sobre"&gt;Sobre mí&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="nav-item"&gt;&lt;a class="nav-link" href="#proyectos"&gt;Proyectos&lt;/a&gt;&lt;/li&gt;
+        &lt;li class="nav-item"&gt;&lt;a class="nav-link" href="#contacto"&gt;Contacto&lt;/a&gt;&lt;/li&gt;
+      &lt;/ul&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
+&lt;/nav&gt;
+
+&lt;!-- Hero / Cabecera --&gt;
+&lt;div class="bg-primary text-white text-center py-5"&gt;
+  &lt;h1&gt;Hola, soy Juan&lt;/h1&gt;
+  &lt;p class="lead"&gt;Desarrollador web en formación&lt;/p&gt;
+  &lt;a href="#contacto" class="btn btn-light"&gt;Contáctame&lt;/a&gt;
+&lt;/div&gt;
+
+&lt;div class="container mt-5"&gt;
+
+  &lt;!-- Sobre mí --&gt;
+  &lt;section id="sobre" class="mb-5"&gt;
+    &lt;h2&gt;Sobre mí&lt;/h2&gt;
+    &lt;div class="row"&gt;
+      &lt;div class="col-md-8"&gt;
+        &lt;p&gt;Soy estudiante de Desarrollo de Aplicaciones en Red. Me gusta aprender tecnologías nuevas
+           y crear proyectos personales para practicar.&lt;/p&gt;
+      &lt;/div&gt;
+      &lt;div class="col-md-4"&gt;
+        &lt;ul class="list-group"&gt;
+          &lt;li class="list-group-item"&gt;HTML / CSS&lt;/li&gt;
+          &lt;li class="list-group-item"&gt;JavaScript&lt;/li&gt;
+          &lt;li class="list-group-item"&gt;Bootstrap&lt;/li&gt;
+        &lt;/ul&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;!-- Proyectos --&gt;
+  &lt;section id="proyectos" class="mb-5"&gt;
+    &lt;h2&gt;Mis proyectos&lt;/h2&gt;
+    &lt;div class="row g-3"&gt;
+      &lt;div class="col-md-4"&gt;
+        &lt;div class="card h-100"&gt;
+          &lt;div class="card-body"&gt;
+            &lt;h5 class="card-title"&gt;Proyecto 1&lt;/h5&gt;
+            &lt;p class="card-text"&gt;Una web de ejemplo creada con HTML y CSS puro.&lt;/p&gt;
+            &lt;a href="#" class="btn btn-primary btn-sm"&gt;Ver más&lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="col-md-4"&gt;
+        &lt;div class="card h-100"&gt;
+          &lt;div class="card-body"&gt;
+            &lt;h5 class="card-title"&gt;Proyecto 2&lt;/h5&gt;
+            &lt;p class="card-text"&gt;Aplicación de lista de tareas con JavaScript.&lt;/p&gt;
+            &lt;a href="#" class="btn btn-primary btn-sm"&gt;Ver más&lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+      &lt;div class="col-md-4"&gt;
+        &lt;div class="card h-100"&gt;
+          &lt;div class="card-body"&gt;
+            &lt;h5 class="card-title"&gt;Proyecto 3&lt;/h5&gt;
+            &lt;p class="card-text"&gt;Este mismo tutorial hecho con Bootstrap.&lt;/p&gt;
+            &lt;a href="#" class="btn btn-primary btn-sm"&gt;Ver más&lt;/a&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+  &lt;!-- Formulario de contacto --&gt;
+  &lt;section id="contacto" class="mb-5"&gt;
+    &lt;h2&gt;Contacto&lt;/h2&gt;
+    &lt;div class="row"&gt;
+      &lt;div class="col-md-6"&gt;
+        &lt;form&gt;
+          &lt;div class="mb-3"&gt;
+            &lt;label class="form-label"&gt;Nombre&lt;/label&gt;
+            &lt;input type="text" class="form-control"&gt;
+          &lt;/div&gt;
+          &lt;div class="mb-3"&gt;
+            &lt;label class="form-label"&gt;Email&lt;/label&gt;
+            &lt;input type="email" class="form-control"&gt;
+          &lt;/div&gt;
+          &lt;div class="mb-3"&gt;
+            &lt;label class="form-label"&gt;Mensaje&lt;/label&gt;
+            &lt;textarea class="form-control" rows="3"&gt;&lt;/textarea&gt;
+          &lt;/div&gt;
+          &lt;button class="btn btn-primary"&gt;Enviar mensaje&lt;/button&gt;
+        &lt;/form&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/section&gt;
+
+&lt;/div&gt;
+
+&lt;footer class="bg-dark text-white text-center py-3"&gt;
+  &lt;p class="mb-0"&gt;&copy; 2024 Juan García&lt;/p&gt;
+&lt;/footer&gt;
+
+&lt;script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"&gt;
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+      <div class="resultado-visual">
+        <div class="label">Vista previa del ejemplo completo (fragmento)</div>
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark rounded mb-3">
+          <div class="container-fluid">
+            <a class="navbar-brand" href="#">Mi Portfolio</a>
+            <div>
+              <ul class="navbar-nav flex-row gap-3">
+                <li class="nav-item"><a class="nav-link" href="#">Sobre mí</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Proyectos</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">Contacto</a></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+        <div class="bg-primary text-white text-center py-3 rounded mb-3">
+          <h4 class="mb-1">Hola, soy Juan</h4>
+          <p class="mb-2">Desarrollador web en formación</p>
+          <a href="#" class="btn btn-light btn-sm">Contáctame</a>
+        </div>
+        <div class="row g-2">
+          <div class="col-md-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h6 class="card-title">Proyecto 1</h6>
+                <p class="card-text small">Una web de ejemplo creada con HTML y CSS puro.</p>
+                <a href="#" class="btn btn-primary btn-sm">Ver más</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h6 class="card-title">Proyecto 2</h6>
+                <p class="card-text small">Lista de tareas con JavaScript.</p>
+                <a href="#" class="btn btn-primary btn-sm">Ver más</a>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card h-100">
+              <div class="card-body">
+                <h6 class="card-title">Proyecto 3</h6>
+                <p class="card-text small">Este mismo tutorial con Bootstrap.</p>
+                <a href="#" class="btn btn-primary btn-sm">Ver más</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============================= SECCIÓN 8 ============================= -->
+    <div class="section-card" id="sec8">
+      <h2>10. Conclusiones</h2>
+
+      <p>
+        Despues de hacer este tutorial creo que he aprendido bastante sobre Bootstrap. No ha sido facil al principio,
+        sobre todo el sistema de grid que me costó entender, pero una vez que le pilles el truco va bastante bien.
+      </p>
+
+      <h3>Lo que he conseguido</h3>
+      <ul>
+        <li>Entender que es Bootstrap y porque tiene sentido usarlo en lugar de escribir todo el CSS a mano.</li>
+        <li>Incluir Bootstrap en una pagina web usando el CDN (la descarga local no la he probado mucho).</li>
+        <li>Usar el sistema de grid de 12 columnas para hacer diseños basicos.</li>
+        <li>Usar los componentes mas comunes: botones, alertas, tarjetas, navbar, formularios y modales.</li>
+        <li>Crear una pagina de perfil juntando todo.</li>
+      </ul>
+
+      <h3>Alcance del tutorial</h3>
+      <p>
+        Este tutorial cubre un nivel <strong>basico-medio</strong>. He intentado explicar las cosas que mas se usan
+        pero hay muchos componentes y opciones que no he llegado a ver, como por ejemplo:
+      </p>
+      <ul>
+        <li>Personalizar Bootstrap con Sass (esto es bastante avanzado y no lo he llegado a hacer).</li>
+        <li>Usarlo junto con frameworks como React o Vue.</li>
+        <li>Componentes que no he llegado a cubrir: offcanvas, toasts, accordions, tabs... (pendiente de explorar).</li>
+        <li>Crear temas propios o usar plantillas de otras personas.</li>
+      </ul>
+
+      <h3>Opinion personal</h3>
+      <p>
+        Bootstrap me ha parecido bastante util para hacer paginas rapidamente. La curva de aprendizaje
+        es corta y en poco tiempo ya puedes tener algo decente. Lo que no me gusta tanto es que todas las webs
+        hechas con bootstrap se parecen mucho si no personalizas nada, lo que le da un aspecto un poco generico.
+        Tambien hay veces que para hacer algo especifico acabas sobreescribiendo tanto el CSS que te preguntas si
+        no era mas facil hacerlo desde cero.
+      </p>
+      <p>
+        En general para proyectos rapidos o de clase creo que es una muy buena opcion.
+      </p>
+
+      <div class="consejo">
+        <strong>Mi recomendacion:</strong> Para cualquier proyecto rapido o de clase Bootstrap es genial.
+        Si el diseño es muy importante y quieres algo mas original, quizas merece la pena mirar Tailwind CSS,
+        aunque eso ya es otra historia y tampoco lo he usado yo todavía.
+      </div>
+
+      <h3>Referencias y recursos que he usado</h3>
+      <ul>
+        <li><a href="https://getbootstrap.com/docs/5.3/getting-started/introduction/" target="_blank">Documentación oficial de Bootstrap 5</a> — la mas completa aunque al principio cuesta leerla</li>
+        <li><a href="https://www.w3schools.com/bootstrap5/" target="_blank">W3Schools — Bootstrap 5</a> — muy util para buscar ejemplos rapidos</li>
+        <li><a href="https://developer.mozilla.org/es/docs/Glossary/Bootstrap" target="_blank">MDN Web Docs — Bootstrap</a></li>
+        <li><a href="https://icons.getbootstrap.com/" target="_blank">Bootstrap Icons</a> — iconos gratuitos que van muy bien con bootstrap</li>
+        <li>Stackoverflow — para resolver dudas puntuales (sin esto no hubiera terminado el tutorial)</li>
+      </ul>
+    </div>
+
+    <!-- FOOTER -->
+    <footer>
+      <p class="mb-0">
+        Tutorial de Bootstrap &mdash; Actividad 2 &mdash; Desarrollo de Aplicaciones en Red
+      </p>
+    </footer>
+
+  </div><!-- /main-content -->
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
